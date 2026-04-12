@@ -1,5 +1,5 @@
 # Projeto: Fluxo de CI/CD Prático
-# Desenvolvedor: Hen (Henrique)
+# Desenvolvedor: maedcozy (Maria Chaves)
 # Disciplina: DevOps
 
 def soma(a, b):
@@ -12,5 +12,6 @@ if __name__ == "__main__":
     print("Calculadora Iniciada")
     print(f"Soma: {soma(10, 5)}")
     print(f"Subtração: {subtracao(10, 5)}")
+    
+print("Concluído com sucesso!")
 
-print("Cálculo realizo com sucesso!")
