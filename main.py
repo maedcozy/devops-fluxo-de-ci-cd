@@ -12,5 +12,6 @@ if __name__ == "__main__":
     print("Calculadora Iniciada")
     print(f"Soma: {soma(10, 5)}")
     print(f"Subtração: {subtracao(10, 5)}")
-
+    
 print("Concluído com sucesso!")
+
