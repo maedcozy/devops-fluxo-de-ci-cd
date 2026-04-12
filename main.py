@@ -1,9 +1,14 @@
+# Projeto: Fluxo de CI/CD Prático
+# Desenvolvedor: maedcozy (Maria Chaves)
+# Disciplina: DevOps
+
 def soma(a, b):
     return a + b
 
 def subtracao(a, b):
     return a - b
 
-print("Calculadora Iniciada")
-print(f"Teste de soma (2+3): {soma(2, 3)}")
-print(f"Teste de subtração (10 - 4): {subtracao(10, 4)}")
+if __name__ == "__main__":
+    print("Calculadora Iniciada")
+    print(f"Soma: {soma(10, 5)}")
+    print(f"Subtração: {subtracao(10, 5)}")
