@@ -10,9 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Python Lint Code Scanning Action
         uses: advanced-security/python-lint-code-scanning-action@v1.1.3
         with:
           linter: pylint
+
+  discord:
+    runs-on: ubuntu-latest
+    needs: build
+    if: always()
+    steps:
+      - name: Run Discord Webhook
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ needs.build.result }}
+          title: "Resultado do Workflow"
+          description: "O job de build terminou com status: ${{ needs.build.result }}"
+          color: 0x0000ff
