@@ -45,7 +45,6 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          # Aqui ele executa seu arquivo test/test.py
           pytest test/test.py --cov=src --cov-report=xml
 
   discord:
@@ -58,6 +57,6 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ needs.testes.result }}
-          title: "CI Workflow Status"
-          description: "Resultado dos testes: ${{ needs.testes.result }}"
+          title: "CI Status"
+          description: "Lint e Testes finalizados. Status: ${{ needs.testes.result }}"
           color: 0x0000ff
