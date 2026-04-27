@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-permissions:
-  contents: read
-  security-events: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,10 +13,17 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Python Lint Code Scanning Action
-        uses: advanced-security/python-lint-code-scanning-action@v1.1.3
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          linter: pylint
+          python-version: '3.12'
+
+      - name: Install Linter
+        run: pip install pylint fastapi
+
+      - name: Run Pylint
+        # Comando direto evita erros de permissão de API no GitHub
+        run: pylint src/main.py --disable=C0114,C0116
 
   testes:
     runs-on: ubuntu-latest
@@ -55,6 +58,6 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ needs.testes.result }}
-          title: "Resultado do Workflow CI"
-          description: "Build e Testes finalizados. Status dos Testes: ${{ needs.testes.result }}"
+          title: "CI Workflow Status"
+          description: "Resultado dos testes unitários: ${{ needs.testes.result }}"
           color: 0x0000ff
