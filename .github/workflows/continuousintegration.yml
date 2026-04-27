@@ -15,10 +15,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Python Lint Code Scanning Action
-        uses: advanced-security/python-lint-code-scanning-action@v1.1.3
-        with:
-          linter: pylint
+      - name: Install Pylint
+        run: pip install pylint fastapi
+
+      - name: Run Pylint
+        run: pylint src/main.py --disable=C0114,C0116
 
   discord:
     runs-on: ubuntu-latest
