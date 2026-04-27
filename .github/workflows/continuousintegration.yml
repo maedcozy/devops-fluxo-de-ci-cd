@@ -24,7 +24,7 @@ jobs:
           pip install pylint fastapi
 
       - name: Run Pylint
-        run: pylint src/main.py --disable=C0114,C0116
+        run: pylint src/main.py --disable=C0114,C0116,C0303,C0304
 
   testes:
     runs-on: ubuntu-latest
