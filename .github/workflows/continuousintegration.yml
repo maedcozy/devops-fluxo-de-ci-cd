@@ -1,4 +1,5 @@
 name: Continous Integration Workflow
+
 on:
   push:
     branches: [ "main" ]
@@ -12,12 +13,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
-
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -27,38 +22,39 @@ jobs:
         with:
           linter: pylint
 
-  discord:
+  testes:
     runs-on: ubuntu-latest
     needs: build
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install fastapi pytest pytest-cov
+
+      - name: Run Tests with Pytest
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          pytest test/test.py --cov=src --cov-report=xml
+
+  discord:
+    runs-on: ubuntu-latest
+    needs: [build, testes]
     if: always()
     steps:
       - name: Run Discord Webhook
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ needs.build.result }}
-          title: "Resultado do Workflow"
-          description: "O job de build terminou com status: ${{ needs.build.result }}"
+          status: ${{ needs.testes.result }}
+          title: "Resultado do Workflow CI"
+          description: "Build e Testes finalizados. Status dos Testes: ${{ needs.testes.result }}"
           color: 0x0000ff
-
-  testes:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Check out repository code
-          uses: actions/checkout@v4
-
-        - name: Set up Python
-          uses: actions/setup-python@v5
-          with:
-            python-version: '3.12'
-
-        - name: Install Linter and Dependencies
-          run: |
-            python -m pip install --upgrade pip
-            pip install pylint fastapi
-
-        - name: Run Pylint
-          # Analisa o código e mostra os erros no log do GitHub Actions
-          run: |
-            pylint src/main.py --disable=C0114,C0116
