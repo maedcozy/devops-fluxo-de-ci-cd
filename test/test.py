@@ -2,7 +2,7 @@
 # Desenvolvedor: maedcozy (Maria Chaves)
 # Disciplina: DevOps
 
-from main import read_root, soma, subtracao, multiplicacao, divisao
+from src.main import read_root, soma, subtracao, multiplicacao, divisao
 
 def test_read_root():
     assert read_root() == {"Hello": "Bangtan!"}
