@@ -22,3 +22,4 @@ def divisao(a, b):
 
 if __name__ == "__main__":
     print("Calculadora Iniciada")
+    
